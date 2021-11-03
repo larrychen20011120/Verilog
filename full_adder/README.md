@@ -1,3 +1,6 @@
+# 線上verilog IDE
+https://www.jdoodle.com/execute-verilog-online/
+
 # 三種方式來描述電路
 ## Structure Description
 * 透過呼叫 module 來完成
