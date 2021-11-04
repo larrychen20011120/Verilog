@@ -13,6 +13,8 @@ input [2:0] a;
 * 多個 bits 做 case 判斷時，可以用 **n'b** 後接n個 0/1
 
 ```verilog
+// behavior description
+
 always@(x or y) begin 
     
     case ({x, y})
@@ -40,5 +42,8 @@ always@(x or y) begin
         
 end
 ```
-
+```verilog
+// dataflow description
+assign c = (a > b) ? a : b;
+```
 
