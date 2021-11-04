@@ -8,7 +8,30 @@
 * 多個 bits 做 case 判斷時，可以用 **n'b** 後接多個 0/1
 
 ```verilog
-always@(*) begin
-
+always@(x or y) begin 
+    
+    case ({x, y})
+    
+        2'b00: begin
+            s = 0;
+            c = 0;
+        end
+        
+        2'b01: begin
+            s = 1;
+            c = 0;
+        end
+        
+    
+        2'b10: begin
+            s = 1;
+            c = 0;
+        end
+        
+    default: begin
+        s = 1;
+        c = 1;
+    end
+        
 end
 ```
