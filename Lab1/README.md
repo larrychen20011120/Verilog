@@ -7,7 +7,7 @@
 * 中間運算結果可以存入 **wire** 變數中
 * or, xor, and, ... built-in modules
 
-```verilolog
+```verilog
 module HA(a, b, sum, carry);
 
     input a, b;
@@ -28,7 +28,7 @@ endmodule
 * 一個訊號只能被 assign 一次
 * 中間運算結果可以存入 **wire** 變數中
 
-```verilolog
+```verilog
 module HA(a, b, sum, carry);
 
     input a, b;
@@ -50,7 +50,7 @@ endmodule
 * 中間運算或是輸出結果必須存入 **reg** 變數中
 * 組合 output 和 reg 一起宣告 : **output reg**
 
-```verilolog
+```verilog
 module HA(a, b, sum, carry);
 
     input a, b;
