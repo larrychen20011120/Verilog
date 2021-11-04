@@ -24,4 +24,13 @@ https://www.jdoodle.com/execute-verilog-online/
 * 由**兩個 half_adder**組成
 * 輸入兩個數及 carry_in，輸出 sum & carry_out
 ![image](https://user-images.githubusercontent.com/38965858/140275566-aeaec34f-3abc-47a3-965a-ed4852d977a7.png)
-![image](https://user-images.githubusercontent.com/38965858/140278383-8b371181-6707-4160-b9f6-66b62f8bde7a.png)
+| x      | y      | carry_in | sum    | carry_out |
+| :----: | :----: | :----:   | :----: | :----:    |
+|   0    |  0     |    0     |    0   |    0      |
+|   1    |  0     |    0     |    1   |    0      |
+|   1    |  0     |    0     |    1   |    0      |
+|   1    |  1     |    0     |    0   |    1      |
+|   0    |  0     |    1     |    1   |    0      |
+|   1    |  0     |    1     |    0   |    1      |
+|   0    |  1     |    1     |    0   |    1      |
+|   1    |  1     |    1     |    1   |    1      |
