@@ -7,6 +7,8 @@
 * behavior description 用 if-else 和 case 來判斷
 * 多個 bits 做 case 判斷時，可以用 **n'b** 後接多個 0/1
 
-```verilog=
-always@
+```verilog
+always@(*) begin
+
+end
 ```
