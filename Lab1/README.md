@@ -85,3 +85,6 @@ endmodule
 |   1    |  0     |    1     |    0   |    1      |
 |   0    |  1     |    1     |    0   |    1      |
 |   1    |  1     |    1     |    1   |    1      |
+
+* 本次 lab 要將 fullAddder 以三種描述方式實作出來
+    * [Structure Description](structure.v)
