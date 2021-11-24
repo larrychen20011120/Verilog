@@ -108,8 +108,9 @@ module testbench;
 
 endmodule
 
+// End of testbench
 
-
+// HalfAdder pre-defined
 module HA(a, b, sum, carry);
 
 input a, b;
