@@ -31,7 +31,7 @@ endmodule
 
 
 module Display(count, out);
-input count;
+input [3:0] count;
 output reg [6:0]out;
 
 always@(*) begin
@@ -59,7 +59,7 @@ end
 endmodule
 
 
-module counter(clk, rst, out)
+module counter(clk, rst, out);
 input clk, rst;
 wire clk_div;
 output [6:0]out;
