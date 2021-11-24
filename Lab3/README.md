@@ -8,3 +8,8 @@
   // g = 1
   out = 7'b1000000
   ```
+* Assign out to seven segment digit pin of FPGA
+
+  ![image](https://user-images.githubusercontent.com/38965858/143218055-2333b930-0bf0-4c78-99d5-7daa28d2dc7d.png)
+
+# 3-bit Adder
