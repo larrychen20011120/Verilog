@@ -69,13 +69,13 @@ always@(posedge clk_div or negedge reset)
 begin
  if(!reset) 
  begin
- state = s0;
+  state = s0;
  end
  else 
  begin
- state = next_state;
+  state = next_state;
+  
  case(state)
- 
  s0:begin
  if(in==1) next_state = s3;
  else next_state = s1;
