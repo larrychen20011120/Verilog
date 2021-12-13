@@ -1,4 +1,4 @@
-`define TimeExpire 32'd6250000
+`define TimeExpire 32'd12500000
 module cli_div(clk,rst,div_clk);
 input clk,rst;
 output div_clk;
@@ -6,7 +6,7 @@ output div_clk;
 reg div_clk;
 reg [31:0]count;
 
-always@(posedge clk)
+always@(posedge clk or negedge rst)
 begin
  if(!rst)
  begin
@@ -55,13 +55,13 @@ endcase
 end
 endmodule
 
-module exam(clk,reset,out,in);
-input clk,reset,in;
+module exam(clk, reset, in , out);
+input clk, reset, in;
 reg [3:0] count;
 reg [2:0]state, next_state;
 wire clk_div;
 output [6:0] out;
-parameter s0=3'd0, s1=3'd1, s2=3'd2,s3=3'd3,s4=3'd4,s5=3'd5;
+parameter s0=2'd0, s1=2'd1, s2=2'd2,s3=2'd3;
 cli_div c(.clk(clk),.rst(reset),.div_clk(clk_div));
 seven useven(.count(count),.out(out));
 
@@ -74,52 +74,95 @@ begin
  else 
  begin
   state = next_state;
-  
- case(state)
- s0:begin
- if(in==1) next_state = s3;
- else next_state = s1;
- end
- 
- s1:begin
- if(in==1) next_state = s5;
- else next_state = s2;
- end
- 
- s2:begin
- if(in==1) next_state = s0;
- else next_state = s3;
- end
- 
- s3:begin
- if(in==1) next_state = s1;
- else next_state = s4;
- end
- 
- s4:begin
- if(in==1) next_state = s2;
- else next_state = s5;
- end
- 
- s5:begin
- if(in==1) next_state = s4;
- else next_state = s0;
- end
- endcase
- 
- 
  end
 end
 
-always@(state)
-begin
- case(state)
- s0:count=32'd0;
- s1:count=32'd1;
- s2:count=32'd2;
- s3:count=32'd3;
- s4:count=32'd4;
- s5:count=32'd5;
+always@(state) begin
+
+case(state)
+ 
+ s0:begin
+    if (in == 0) begin
+        next_state = s3;
+    end
+    else begin
+        next_state = s2;
+    end
+ end
+ 
+ s1:begin
+    if (in == 0) begin
+        next_state = s0;
+    end
+    else begin
+        next_state = s3;
+    end
+ end
+ 
+ s2:begin
+    if (in == 0) begin
+        next_state = s1;
+    end
+    else begin
+        next_state = s1;
+    end
+ end
+ 
+ s3:begin
+    if (in == 0) begin
+        next_state = s2;
+    end
+    else begin
+        next_state = s0;
+    end
+ end
+ 
  endcase
+
+end
+
+always@(state or reset)
+begin
+    if (reset == 0) begin
+        count = 32'd8;
+    end
+	 else begin	
+	 
+		case(state)
+    s0:begin
+        if (in == 0) begin
+            count=32'd0;
+        end
+        else begin
+            count = 32'd4;
+        end
+    end
+    s1:begin
+        if (in == 0) begin
+            count=32'd1;
+        end
+        else begin
+            count = 32'd5;
+        end
+    end
+    s2:begin
+        if (in == 0) begin
+            count=32'd2;
+        end
+        else begin
+            count = 32'd6;
+        end
+    end
+    s3:begin
+        if (in == 0) begin
+            count=32'd3;
+        end
+        else begin
+            count = 32'd7;
+        end
+    end
+ endcase
+	 end
+
 end
 endmodule
