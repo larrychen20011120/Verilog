@@ -30,7 +30,7 @@ end
 endmodule
 
 
-module Lab8(clk,reset, dot_row, dot_col);
+module Lab6(clk,reset, dot_row, dot_col);
 input clk,reset;
 output reg[7:0] dot_row, dot_col;
 reg [2:0]row_count;
