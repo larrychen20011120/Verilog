@@ -1,12 +1,3 @@
-/*`define h_pixel 640;
-`define h_front_porch 16;
-`define h_sync_pulse 96;
-`define h_back_porch 48;
-`define v_pixel 480;
-`define v_front_porch 10;
-`define v_sync_pulse 2;
-`define v_back_porch 33;
-*/
 module clk_divider_25MHz(
 input clk,
 input reset,
@@ -235,6 +226,7 @@ module KeypadController(clk_100Hz, reset, keypadCol, keypadRow, direction);
         end
     end
 endmodule
+
 module snake(
 input clk,
 input reset,
@@ -267,7 +259,7 @@ h_sync_signal my_h_sync_signal(h_count_value,H_sync);
 v_sync_signal my_v_sync_signal(v_count_value,V_sync);
 check_on_display my_check_on_display(h_count_value,v_count_value,on_display);
 output_rgb_signal my_output_rgb_signal(on_display,red_wire,green_wire,blue_wire,red,green,blue);
-KeypadController(clk_100Hz, reset, keypadCol, keypadRow, direction);
+KeypadController (clk_100Hz, reset, keypadCol, keypadRow, direction);
 parameter h_pixel = 640,
 			 h_front_porch = 16,
 			 h_sync_pulse = 96,
@@ -288,6 +280,10 @@ reg [6:0] array_of_snake_x_position[127:0];
 reg [6:0] array_of_snake_y_position[127:0];
 reg [3:0] green_reg;
 reg found;
+
+reg x_OK [63:0] = 1;
+reg y_OK [47:0] = 1;
+
 assign green_wire = green_reg;
 integer len_counter_s;
 initial begin
@@ -303,6 +299,14 @@ array_of_snake_x_position[4]=7'd1;
 array_of_snake_y_position[4]=7'd0;
 array_of_snake_x_position[5]=7'd0;
 array_of_snake_y_position[5]=7'd0;
+
+y_OK[0] = 0;
+x_OK[0] = 0;
+x_OK[1] = 0;
+x_OK[2] = 0;
+x_OK[3] = 0;
+x_OK[4] = 0;
+x_OK[5] = 0;
 end
 always@(posedge clk_25MHz or negedge reset) begin
 	if(!reset) begin
@@ -325,6 +329,9 @@ always@(posedge clk_25MHz or negedge reset) begin
 end
 
 integer len_counter_p;
+integer ok_count;
+reg [9:0] rand;
+
 always@(posedge clk_2Hz or negedge reset) begin
 	if(!reset) begin
 		//
@@ -350,8 +357,44 @@ always@(posedge clk_2Hz or negedge reset) begin
 				array_of_snake_x_position[0] <= array_of_snake_x_position[0] - 7'd1;
 			end
 		endcase
+		
+		x_OK[array_of_snake_x_position[snake_len + 1]] = 1; // set tail to 0
+		y_OK[array_of_snake_x_position[snake_len + 1]] = 1; // set tail to 0
+		x_OK[array_of_snake_x_position[0]] = 0; // set head to 0
+		y_OK[array_of_snake_x_position[0]] = 0; // set head to 0
+		
 		if(is_collision) begin
 			snake_len <= snake_len + 7'd1;
+			rand = {$random} % 64;
+			for (ok_count = 0; ok_count < 64; ok_count = ok_count + 1) begin
+			    rand = rand + ok_count;
+			    if (rand >= 10'd64) begin
+			        rand = rand - 10'd64;
+			    end
+			    else begin
+			        rand = rand;
+			    end
+			    if (x_OK[rand]) begin
+			        apple_x_position = x_OK[rand];
+			        ok_count = 64;
+			    end
+			end
+			for (ok_count = 0; ok_count < 48; ok_count = ok_count + 1) begin
+			    rand = rand + ok_count;
+			    if (rand >= 10'd96) begin
+			        rand = rand - 10'd96;
+			    end
+			    else if (rand >= 10'd48) begin
+			        rand = rand - 10'd48;
+			    end
+			    else begin
+			        rand = rand;
+			    end
+			    if (y_OK[rand]) begin
+			        apple_y_position = y_OK[rand];
+			        ok_count = 48;
+			    end
+			end
 		end
 	end
 end
@@ -359,6 +402,7 @@ end
 reg [3:0] red_reg;
 reg [6:0] apple_x_position=7'd30;
 reg [6:0] apple_y_position=7'd20;
+
 wire is_collision;
 assign is_collision = ((array_of_snake_x_position[0] == apple_x_position) && (array_of_snake_y_position[0] == apple_y_position));
 assign red_wire = red_reg;
