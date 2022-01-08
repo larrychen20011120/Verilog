@@ -358,8 +358,8 @@ always@(posedge clk_2Hz or negedge reset) begin
 			end
 		endcase
 		
-		x_OK[array_of_snake_x_position[snake_len + 1]] = 1; // set tail to 0
-		y_OK[array_of_snake_x_position[snake_len + 1]] = 1; // set tail to 0
+		x_OK[array_of_snake_x_position[snake_len]] = 1; // set tail to 0
+		y_OK[array_of_snake_x_position[snake_len]] = 1; // set tail to 0
 		x_OK[array_of_snake_x_position[0]] = 0; // set head to 0
 		y_OK[array_of_snake_x_position[0]] = 0; // set head to 0
 		
